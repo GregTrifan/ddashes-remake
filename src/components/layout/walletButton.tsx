@@ -7,15 +7,10 @@ import {
   web3ListRpcProviders,
   web3UseRpcProvider,
 } from "@polkadot/extension-dapp";
-async function loadWallet() {
-  await web3Enable("my cool dapp");
-}
+
 const WalletButton = () => {
-  const [uiLoaded, setUILoaded] = useState(false);
   const connectWallet = async () => {
-    if (uiLoaded) {
-      //await web3Enable("my cool dapp");
-    }
+    await web3Enable("DDash");
   };
   return (
     <Box>

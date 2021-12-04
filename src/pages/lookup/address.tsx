@@ -5,18 +5,23 @@ import LiquidityCollection from "../../components/dashboard/liquidityCollection"
 import PositionCollection from "../../components/dashboard/positionsCollection";
 import StakingCard from "../../components/dashboard/staking";
 import TotalBalance from "../../components/dashboard/totalBalance";
+import NotFound from "../404";
 
 const AddressLookup = () => {
-  let { invoiceId } = useParams();
-  return (
-    <>
-      <TotalBalance />
-      <StakingCard />
-      <AssetCollection />
-      <PositionCollection />
-      <LiquidityCollection />
-    </>
-  );
+  let { address } = useParams();
+
+  if (address !== "")
+    return (
+      <>
+        <p>{address}</p>
+        <TotalBalance />
+        <StakingCard />
+        <AssetCollection />
+        <PositionCollection />
+        <LiquidityCollection />
+      </>
+    );
+  return <NotFound />;
 };
 
 export default AddressLookup;

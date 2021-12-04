@@ -27,7 +27,7 @@ import { FaSun, FaMoon, FaExchangeAlt } from "react-icons/fa";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import WalletButton from "./walletButton";
-
+import logo from "../../assets/logo.png";
 const NavHeader = () => {
   const bg = useColorModeValue("white", "gray.800");
   const mobileNav = useDisclosure();
@@ -127,7 +127,7 @@ const NavHeader = () => {
               display="flex"
               alignItems="center"
             >
-              <Image src="/logo.png" height={9} rounded={4} />
+              <Image src={logo} height={9} rounded={4} />
               <VisuallyHidden>DDash</VisuallyHidden>
             </chakra.a>
 
