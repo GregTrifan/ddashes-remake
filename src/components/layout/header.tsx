@@ -102,6 +102,13 @@ const NavHeader = () => {
                 <InputGroup>
                   <Input
                     type="text"
+                    onKeyUp={(e) => {
+                      if (e.key === "Enter") {
+                        mobileNav.onClose();
+                        if (searchAddress !== "")
+                          navigate(`/lookup/${searchAddress}`);
+                      }
+                    }}
                     onChange={(e) => setSearchAddress(e.target.value)}
                     placeholder="Address to lookup..."
                   />
@@ -111,6 +118,7 @@ const NavHeader = () => {
                       borderLeftRadius="0"
                       aria-label="search"
                       onClick={() => {
+                        mobileNav.onClose();
                         if (searchAddress !== "")
                           navigate(`/lookup/${searchAddress}`);
                       }}
@@ -173,6 +181,12 @@ const NavHeader = () => {
             <InputGroup display={{ base: "none", md: "inline-flex" }}>
               <Input
                 type="text"
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    if (searchAddress !== "")
+                      navigate(`/lookup/${searchAddress}`);
+                  }
+                }}
                 onChange={(e) => setSearchAddress(e.target.value)}
                 placeholder="Address to lookup..."
               />

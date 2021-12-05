@@ -1,19 +1,15 @@
 import { Box, Button, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import {
-  web3Accounts,
-  web3Enable,
-  web3FromAddress,
-  web3ListRpcProviders,
-  web3UseRpcProvider,
-} from "@polkadot/extension-dapp";
+import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import Identicon from "@polkadot/react-identicon";
-import { ApiPromise, WsProvider } from "@polkadot/api";
 import { encodeAddress } from "@polkadot/keyring";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userAddressState } from "../../atoms";
 
 const WalletButton = () => {
-  const [address, setAddress] = useState(localStorage.getItem("address") ?? "");
-
+  //const [address, setAddress] = useState(localStorage.getItem("address") ?? "");
+  const setAddress = useSetRecoilState(userAddressState);
+  const address = useRecoilValue(userAddressState);
   useEffect(() => {
     setupWallet();
   }, []);

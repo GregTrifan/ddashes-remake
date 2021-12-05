@@ -7,14 +7,24 @@ import {
   VStack,
   Progress,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userAddressState } from "../../atoms";
+import { fetchKARBalance } from "../../utils/fetchBalance";
 
 const TotalBalance = () => {
   const gradient = useColorModeValue(
     "linear(to-t, #9EE7AA, #AFC6EE)",
     "linear(to-t, #56AFA5, #0E73AD)"
   );
+  const userAddress = useRecoilValue(userAddressState);
+  let address = useParams().address ?? userAddress;
 
+  const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    if (address) fetchKARBalance(address).then((x: any) => setBalance(x));
+  });
   return (
     <Box
       mx="auto"
@@ -31,7 +41,8 @@ const TotalBalance = () => {
         <VStack alignItems="start">
           <Text opacity={0.6}>Net Worth</Text>
           <Heading fontSize="4xl" fontWeight="300">
-            69.42$
+            {/* Rn this is only KAR, not $ */}
+            {balance}$
           </Heading>
         </VStack>
 
