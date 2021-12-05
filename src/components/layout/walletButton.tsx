@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Text, useColorModeValue } from "@chakra-ui/react";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   web3Accounts,
   web3Enable,
@@ -10,33 +10,37 @@ import {
 import Identicon from "@polkadot/react-identicon";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { encodeAddress } from "@polkadot/keyring";
+
 const WalletButton = () => {
-  const [address, setAddress] = useState("");
-  useLayoutEffect(() => {
+  const [address, setAddress] = useState(localStorage.getItem("address") ?? "");
+
+  useEffect(() => {
     setupWallet();
-  }, [address]);
+  }, []);
 
   async function setupWallet() {
     await web3Enable("DDash App");
     const allAccounts = await web3Accounts();
-    if (allAccounts.length >= 0) {
-      const wsProvider = new WsProvider(
-        "wss://karura-rpc-3.aca-api.network/ws"
-      );
-      const api = await ApiPromise.create({ provider: wsProvider });
-      const chain = await api.rpc.system.chain();
-      setAddress(encodeAddress(allAccounts[0].address, 8));
+    try {
+      const newAddress = encodeAddress(allAccounts[0].address, 8);
+      if (newAddress !== address) {
+        setAddress(newAddress);
+        localStorage.setItem("address", newAddress);
+      }
+    } catch {
+      setAddress(address);
     }
   }
-
   return (
-    <HStack>
+    <>
       {!address && (
-        <Button onClick={() => setupWallet()}>Connect Wallet</Button>
+        <Button px="6" onClick={() => setupWallet()}>
+          Connect Wallet
+        </Button>
       )}
       {address && (
         <Box
-          background={useColorModeValue("gray.100", "gray.900")}
+          backgroundColor={useColorModeValue("gray.100", "gray.900")}
           rounded="md"
           py="2"
           px="4"
@@ -51,7 +55,30 @@ const WalletButton = () => {
           </HStack>
         </Box>
       )}
-    </HStack>
+    </>
+  );
+  if (address)
+    return (
+      <Box
+        backgroundColor={useColorModeValue("gray.100", "gray.900")}
+        rounded="md"
+        py="2"
+        px="4"
+      >
+        <HStack>
+          <Identicon value={address} size={24} theme="polkadot" />
+          <Text>
+            {address.substring(0, 3) +
+              "..." +
+              address.substring(address.length - 3, address.length)}
+          </Text>
+        </HStack>
+      </Box>
+    );
+  return (
+    <Button px="6" onClick={() => setupWallet()}>
+      Connect Wallet
+    </Button>
   );
 };
 
