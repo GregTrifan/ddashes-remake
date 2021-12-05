@@ -8,7 +8,6 @@ import PositionCollection from "../../components/dashboard/positionsCollection";
 import StakingCard from "../../components/dashboard/staking";
 import TotalBalance from "../../components/dashboard/totalBalance";
 import NotFound from "../404";
-import { gql, useQuery } from "@apollo/client";
 import { chakra } from "@chakra-ui/react";
 
 const AddressLookup = () => {

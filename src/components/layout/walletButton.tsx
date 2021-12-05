@@ -31,32 +31,7 @@ const WalletButton = () => {
       setAddress(address);
     }
   }
-  return (
-    <>
-      {!address && (
-        <Button px="6" onClick={() => setupWallet()}>
-          Connect Wallet
-        </Button>
-      )}
-      {address && (
-        <Box
-          backgroundColor={useColorModeValue("gray.100", "gray.900")}
-          rounded="md"
-          py="2"
-          px="4"
-        >
-          <HStack>
-            <Identicon value={address} size={24} theme="polkadot" />
-            <Text>
-              {address.substring(0, 3) +
-                "..." +
-                address.substring(address.length - 3, address.length)}
-            </Text>
-          </HStack>
-        </Box>
-      )}
-    </>
-  );
+
   if (address)
     return (
       <Box
