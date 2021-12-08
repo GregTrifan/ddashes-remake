@@ -84,7 +84,8 @@ const AssetCollection = () => {
                     <VStack alignItems="start">
                       <Text opacity={0.6}>{asset.name}</Text>
                       <Heading fontSize="md" fontWeight="300">
-                        {(asset.price / 10e11).toFixed(2)}$
+                        {(asset.price / Math.pow(10, asset.decimal)).toFixed(2)}
+                        $
                       </Heading>
                     </VStack>
                     <Spacer />
