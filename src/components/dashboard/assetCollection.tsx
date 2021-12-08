@@ -14,7 +14,12 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userAddressState } from "../../atoms";
+import CuratedToken from "../../interfaces/curatedToken";
+import { getTokenBalances } from "../../utils/fetchBalance";
 
 const AssetCollection = () => {
   // TODO: Replace with actual data
@@ -28,6 +33,21 @@ const AssetCollection = () => {
     "linear(to-tr, gray.200 0%, #94A6FF 100%)",
     "linear(to-tr, #121a1f 0%, #1C319959 100%)"
   );
+  const [tokenBalances, setTokenBalances] = useState<
+    Array<CuratedToken> | undefined
+  >();
+  const userAddress = useRecoilValue(userAddressState);
+  let address = useParams().address ?? userAddress;
+  async function initAssets() {
+    const res = await getTokenBalances(address);
+    console.log(res);
+    setTokenBalances(res);
+  }
+  useEffect(() => {
+    if (address) {
+      initAssets();
+    }
+  }, []);
   return (
     <Box
       mt="8"
@@ -51,33 +71,39 @@ const AssetCollection = () => {
         borderColor={useColorModeValue("#E4E4E4", "#525252")}
       >
         <Stack direction={{ base: "column" }} w="full">
-          {data.map((asset, pid) => {
-            return (
-              <React.Fragment key={pid}>
-                <Flex pr={10} pl={2}>
-                  <Avatar mx="auto" mr={3}>
-                    <chakra.p fontSize="12" mx="8">
-                      {asset.name}
-                    </chakra.p>
-                  </Avatar>
-                  <VStack alignItems="start">
-                    <Text opacity={0.6}>{asset.name}</Text>
-                    <Heading fontSize="md" fontWeight="300">
-                      {asset.price}$
-                    </Heading>
-                  </VStack>
-                  <Spacer />
-                  <VStack alignItems="end" mx="auto">
-                    <Heading fontSize="md" fontWeight="600">
-                      {(asset.amount * asset.price).toFixed(2)}$
-                    </Heading>
-                    <Text opacity={0.6}>{asset.amount}</Text>
-                  </VStack>
-                </Flex>
-                {data[pid] !== data[data.length - 1] ? <Divider /> : ""}
-              </React.Fragment>
-            );
-          })}
+          {typeof tokenBalances === "object" &&
+            tokenBalances.map((asset, pid) => {
+              return (
+                <React.Fragment key={pid}>
+                  <Flex pr={10} pl={2}>
+                    <Avatar mx="auto" mr={3}>
+                      <chakra.p fontSize="12" mx="8">
+                        {asset.name}
+                      </chakra.p>
+                    </Avatar>
+                    <VStack alignItems="start">
+                      <Text opacity={0.6}>{asset.name}</Text>
+                      <Heading fontSize="md" fontWeight="300">
+                        {(asset.price / 10e11).toFixed(2)}$
+                      </Heading>
+                    </VStack>
+                    <Spacer />
+                    <VStack alignItems="end" mx="auto">
+                      <Heading fontSize="md" fontWeight="600">
+                        {asset.balance ?? 0 * asset.price}$
+                      </Heading>
+                      <Text opacity={0.6}>{asset.balance}</Text>
+                    </VStack>
+                  </Flex>
+                  {tokenBalances[pid] !==
+                  tokenBalances[tokenBalances.length - 1] ? (
+                    <Divider />
+                  ) : (
+                    ""
+                  )}
+                </React.Fragment>
+              );
+            })}
         </Stack>
       </Box>
     </Box>

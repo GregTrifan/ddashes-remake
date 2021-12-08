@@ -7,11 +7,11 @@ import {
   VStack,
   Progress,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAddressState } from "../../atoms";
-import { fetchKARBalance } from "../../utils/fetchBalance";
+import { fetchKARBalance, getTokenBalances } from "../../utils/fetchBalance";
 
 const TotalBalance = () => {
   const gradient = useColorModeValue(
@@ -23,7 +23,10 @@ const TotalBalance = () => {
 
   const [balance, setBalance] = useState(0);
   useEffect(() => {
-    if (address) fetchKARBalance(address).then((x: any) => setBalance(x));
+    if (address) {
+      fetchKARBalance(address).then((x: any) => setBalance(x));
+      getTokenBalances(address);
+    }
   });
   return (
     <Box
