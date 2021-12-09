@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAddressState } from "../../atoms";
-import { fetchKARBalance, getTokenBalances } from "../../utils/fetchBalance";
 
 const TotalBalance = () => {
   const gradient = useColorModeValue(
@@ -21,11 +20,9 @@ const TotalBalance = () => {
   const userAddress = useRecoilValue(userAddressState);
   let address = useParams().address ?? userAddress;
 
-  const [balance, setBalance] = useState(0);
   useEffect(() => {
     if (address) {
-      fetchKARBalance(address).then((x: any) => setBalance(x));
-      getTokenBalances(address);
+      /*Do something... */
     }
   });
   return (
@@ -44,8 +41,7 @@ const TotalBalance = () => {
         <VStack alignItems="start">
           <Text opacity={0.6}>Net Worth</Text>
           <Heading fontSize="4xl" fontWeight="300">
-            {/* Rn this is only KAR, not $ */}
-            {balance}$
+            🤔$
           </Heading>
         </VStack>
 

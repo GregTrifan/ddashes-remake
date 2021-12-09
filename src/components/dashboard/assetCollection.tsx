@@ -2,33 +2,30 @@ import {
   Avatar,
   Box,
   Button,
+  Center,
   chakra,
   Divider,
   Flex,
   Heading,
   SimpleGrid,
   Spacer,
+  Spinner,
   Stack,
   Text,
   useBreakpointValue,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
+import numbro from "numbro";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAddressState } from "../../atoms";
 import CuratedToken from "../../interfaces/curatedToken";
 import { getTokenBalances } from "../../utils/fetchBalance";
+import CardSpinner from "../misc/cardSpinner";
 
 const AssetCollection = () => {
-  // TODO: Replace with actual data
-  const data = [
-    { name: "MATIC", price: 1.3, amount: 69 },
-    { name: "SUSHI", price: 12.5, amount: 29 },
-    { name: "UNI", price: 21.7, amount: 49 },
-    { name: "GALA", price: 0.8, amount: 4569 },
-  ];
   const gradient = useColorModeValue(
     "linear(to-tr, gray.200 0%, #94A6FF 100%)",
     "linear(to-tr, #121a1f 0%, #1C319959 100%)"
@@ -60,19 +57,20 @@ const AssetCollection = () => {
       bgGradient={gradient}
     >
       <Text px={4} fontWeight={600}>
-        Assets
+        Tokens
       </Text>
-      <Box
-        mt="4"
-        py="2"
-        rounded="lg"
-        mx="4"
-        border="1px"
-        borderColor={useColorModeValue("#E4E4E4", "#525252")}
-      >
-        <Stack direction={{ base: "column" }} w="full">
-          {typeof tokenBalances === "object" &&
-            tokenBalances.map((asset, pid) => {
+      {!tokenBalances && <CardSpinner />}
+      {typeof tokenBalances === "object" && (
+        <Box
+          mt="4"
+          py="2"
+          rounded="lg"
+          mx="4"
+          border="1px"
+          borderColor={useColorModeValue("#E4E4E4", "#525252")}
+        >
+          <Stack direction={{ base: "column" }} w="full">
+            {tokenBalances.map((asset, pid) => {
               return (
                 <React.Fragment key={pid}>
                   <Flex pr={10} pl={2}>
@@ -84,16 +82,21 @@ const AssetCollection = () => {
                     <VStack alignItems="start">
                       <Text opacity={0.6}>{asset.name}</Text>
                       <Heading fontSize="md" fontWeight="300">
-                        {(asset.price / Math.pow(10, asset.decimal)).toFixed(2)}
-                        $
+                        {numbro(
+                          asset.price / Math.pow(10, asset.decimal)
+                        ).format("0,0.00 $")}
                       </Heading>
                     </VStack>
                     <Spacer />
                     <VStack alignItems="end" mx="auto">
                       <Heading fontSize="md" fontWeight="600">
-                        {asset.balance ?? 0 * asset.price}$
+                        {numbro(asset.balance ?? 0 * asset.price).format(
+                          "0,0.00 $"
+                        )}
                       </Heading>
-                      <Text opacity={0.6}>{asset.balance}</Text>
+                      <Text opacity={0.6}>
+                        {numbro(asset.balance).format("0,0.00")}
+                      </Text>
                     </VStack>
                   </Flex>
                   {tokenBalances[pid] !==
@@ -105,8 +108,9 @@ const AssetCollection = () => {
                 </React.Fragment>
               );
             })}
-        </Stack>
-      </Box>
+          </Stack>
+        </Box>
+      )}
     </Box>
   );
 };

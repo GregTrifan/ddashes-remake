@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  gql,
-  InMemoryCache,
-  NormalizedCacheObject,
-} from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import TokenNode from "../interfaces/tokenNode";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import CuratedToken from "../interfaces/curatedToken";
@@ -13,13 +8,24 @@ export async function fetchKARBalance(address: string) {
   const api = await ApiPromise.create({ provider: wsProvider });
 
   const { data: balance } = await api.query.system.account(address);
-  return normalize(Number(balance.free));
+  return Number(balance.free);
 }
-
-function normalize(value: number) {
-  let val = value / 10e11;
-
-  return Number(val);
+export async function fetchKARPrice() {
+  const client = new ApolloClient({
+    uri: "https://api.polkawallet.io/acala-subql",
+    cache: new InMemoryCache(),
+  });
+  const TOKEN_QUERY = gql`
+    query {
+      token(id: "KAR") {
+        price
+      }
+    }
+  `;
+  const tokenQuery = await Promise.resolve(
+    client.query({ query: TOKEN_QUERY })
+  );
+  return await Promise.resolve(tokenQuery.data.token.price);
 }
 export async function getTokenBalances(
   address: string
