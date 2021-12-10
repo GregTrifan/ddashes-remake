@@ -50,7 +50,7 @@ const NativeAsset = () => {
           rounded="md"
           p="2"
           mr="2"
-          bgColor={useColorModeValue("gray.400", "gray.800")}
+          bgColor={useColorModeValue("#2E2E2E63", "gray.800")}
         >
           <motion.div
             initial={{ rotateY: 0 }}
