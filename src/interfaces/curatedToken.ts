@@ -1,6 +1,4 @@
-import TokenNode from "./tokenNode";
-
-export default interface CuratedToken extends TokenNode {
+export default interface CuratedToken {
   name: string;
   price: number;
   decimal: number;

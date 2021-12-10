@@ -37,7 +37,6 @@ const AssetCollection = () => {
   let address = useParams().address ?? userAddress;
   async function initAssets() {
     const res = await getTokenBalances(address);
-    console.log(res);
     setTokenBalances(res);
   }
   useEffect(() => {
