@@ -15,7 +15,7 @@ import { useRecoilValue } from "recoil";
 import { ReactComponent as Karura } from "../../assets/karura.svg";
 import { userAddressState } from "../../atoms";
 import { fetchKARBalance, fetchKARPrice } from "../../utils/fetchBalance";
-const StakingCard = () => {
+const NativeAsset = () => {
   const gradient = useColorModeValue(
     "linear(to-br, #49DEFF, #6C77F7)",
     "linear(to-tl, #065364, #0D1572)"
@@ -32,27 +32,34 @@ const StakingCard = () => {
   }
   useEffect(() => {
     initBal();
-  });
+  }, [address]);
   return (
     <Box
       mt="8"
       mx="auto"
       shadow="lg"
-      py={6}
-      px={8}
+      py={2}
+      px={4}
       maxW={{ base: "90vw", sm: "80vw", md: "70vw", lg: "60vw", xl: "800px" }}
       spacing={0}
       rounded="md"
       bgGradient={gradient}
     >
       <Flex>
-        <motion.div
-          initial={{ rotateY: 0 }}
-          animate={{ rotateY: 360 }}
-          transition={{ duration: 3, repeat: Infinity }}
+        <Box
+          rounded="md"
+          p="2"
+          mr="2"
+          bgColor={useColorModeValue("gray.400", "gray.800")}
         >
-          <Karura fontSize={100} />
-        </motion.div>
+          <motion.div
+            initial={{ rotateY: 0 }}
+            animate={{ rotateY: 360 }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            <Karura fontSize={90} />
+          </motion.div>
+        </Box>
         <VStack visibility={{ base: "hidden", md: "visible" }}>
           <Box>
             <Heading ml="auto" textAlign="left">
@@ -86,4 +93,4 @@ const StakingCard = () => {
   );
 };
 
-export default StakingCard;
+export default NativeAsset;

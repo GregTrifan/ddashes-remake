@@ -63,8 +63,8 @@ export async function getTokenBalances(
       const fData = await tokenData.toJSON();
       return await {
         name: info.name,
-        balance: fData!.free,
-        price: info.price,
+        balance: fData!.free / Math.pow(10, info.decimal),
+        price: info.price / Math.pow(10, info.decimal),
         decimal: info.decimal,
       };
     });

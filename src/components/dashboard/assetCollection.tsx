@@ -44,7 +44,7 @@ const AssetCollection = () => {
     if (address) {
       initAssets();
     }
-  }, []);
+  }, [address]);
   return (
     <Box
       mt="8"
@@ -90,12 +90,10 @@ const AssetCollection = () => {
                     <Spacer />
                     <VStack alignItems="end" mx="auto">
                       <Heading fontSize="md" fontWeight="600">
-                        {numbro(asset.balance ?? 0 * asset.price).format(
-                          "0,0.00 $"
-                        )}
+                        {numbro(asset.balance * asset.price).format("0,0.00 $")}
                       </Heading>
                       <Text opacity={0.6}>
-                        {numbro(asset.balance).format("0,0.00")}
+                        {numbro(asset.balance).format("0,0.00")} {asset.name}
                       </Text>
                     </VStack>
                   </Flex>
