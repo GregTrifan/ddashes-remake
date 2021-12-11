@@ -3,12 +3,10 @@ import { isHex, hexToU8a } from "@polkadot/util";
 import React from "react";
 import { useParams } from "react-router-dom";
 import AssetCollection from "../../components/dashboard/assetCollection";
-import LiquidityCollection from "../../components/dashboard/liquidityCollection";
 import PositionCollection from "../../components/dashboard/positionsCollection";
 import NativeAsset from "../../components/dashboard/nativeAsset";
 import TotalBalance from "../../components/dashboard/totalBalance";
 import NotFound from "../404";
-import { chakra } from "@chakra-ui/react";
 
 const AddressLookup = () => {
   let { address } = useParams();
@@ -24,7 +22,6 @@ const AddressLookup = () => {
           <NativeAsset />
           <AssetCollection />
           <PositionCollection />
-          <LiquidityCollection />
         </>
       );
     else return <NotFound />;

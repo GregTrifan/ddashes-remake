@@ -2,13 +2,21 @@ import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import TokenNode from "../interfaces/tokenNode";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import CuratedToken from "../interfaces/curatedToken";
+import KarBalance from "../interfaces/karBalance";
 
-export async function fetchKARBalance(address: string) {
+export async function fetchKARBalance(address: string): Promise<KarBalance> {
   const wsProvider = new WsProvider("wss://karura-rpc-3.aca-api.network/ws");
   const api = await ApiPromise.create({ provider: wsProvider });
 
   const { data: balance } = await api.query.system.account(address);
-  return Number(balance.free);
+  const { free, reserved, miscFrozen } = balance;
+  const balances = {
+    free:
+      (Number(free) - (Number(reserved) + Number(miscFrozen))) /
+      Math.pow(10, 12),
+    locked: (Number(reserved) + Number(miscFrozen)) / Math.pow(10, 12),
+  };
+  return balances;
 }
 export async function fetchKARPrice() {
   const client = new ApolloClient({

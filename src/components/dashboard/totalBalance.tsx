@@ -7,10 +7,17 @@ import {
   VStack,
   Progress,
 } from "@chakra-ui/react";
+import numbro from "numbro";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userAddressState } from "../../atoms";
+import { useRecoilValue, useResetRecoilState } from "recoil";
+import {
+  userAddressState,
+  userKarFreeState,
+  userKarLockedState,
+  userTokensBalanceState,
+  userVaultsBalanceState,
+} from "../../atoms";
 
 const TotalBalance = () => {
   const gradient = useColorModeValue(
@@ -20,11 +27,23 @@ const TotalBalance = () => {
   const userAddress = useRecoilValue(userAddressState);
   let address = useParams().address ?? userAddress;
 
-  useEffect(() => {
-    if (address) {
-      /*Do something... */
-    }
-  });
+  const userVaultsBalance = useRecoilValue(userVaultsBalanceState);
+  const userKarFreeBalance = useRecoilValue(userKarFreeState);
+  const userKarLockedBalance = useRecoilValue(userKarLockedState);
+  const userTokensBalance = useRecoilValue(userTokensBalanceState);
+  function sumAll() {
+    return (
+      userTokensBalance +
+      userKarLockedBalance +
+      userKarFreeBalance +
+      userVaultsBalance
+    );
+  }
+  function getRatio() {
+    const sum = sumAll();
+    console.log(((userTokensBalance + userKarFreeBalance) * 100) / sum);
+    return ((userTokensBalance + userKarFreeBalance) * 100) / sum;
+  }
   return (
     <Box
       mx="auto"
@@ -41,15 +60,21 @@ const TotalBalance = () => {
         <VStack alignItems="start">
           <Text opacity={0.6}>Net Worth</Text>
           <Heading fontSize="4xl" fontWeight="300">
-            🤔$
+            {numbro(sumAll()).format("0,0.00")}$
           </Heading>
         </VStack>
 
-        <Tooltip hasArrow label="91% In wallet,9% Supplied" rounded="md">
+        <Tooltip
+          hasArrow
+          label={`${numbro(getRatio()).format("0,0.00")}% In wallet, ${numbro(
+            100 - getRatio()
+          ).format("0,0.00")}% Supplied`}
+          rounded="md"
+        >
           <div>
             <Progress
               hasStripe
-              value={91}
+              value={getRatio()}
               rounded="sm"
               size="sm"
               my="2"

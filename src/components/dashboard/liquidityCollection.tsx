@@ -11,7 +11,10 @@ import {
   Avatar,
   chakra,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userAddressState } from "../../atoms";
 
 const LiquidityCollection = () => {
   const data = [
@@ -35,6 +38,10 @@ const LiquidityCollection = () => {
     "linear(to-tl, #84E8FF 0%, #8F98FF 100%)",
     "linear(to-tl, #00323D, #000744)"
   );
+  /*
+  const userAddress = useRecoilValue(userAddressState);
+  let address = useParams().address ?? userAddress;
+  */
   return (
     <Box
       mt="8"

@@ -2,7 +2,6 @@ import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import CuratedLoanPosition from "../interfaces/curatedLoan";
 import LoanPositionNode from "../interfaces/loanPositionNode";
 import TokenNode from "../interfaces/tokenNode";
-import { LoanPositionFilter } from "../types/loanPositionFilter";
 export async function fetchLoans(address: string) {
   const client = new ApolloClient({
     uri: "https://api.polkawallet.io/acala-subql",

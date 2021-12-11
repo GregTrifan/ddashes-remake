@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Center,
   chakra,
   Divider,
   Flex,
@@ -17,20 +18,17 @@ import {
 import numbro from "numbro";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userAddressState } from "../../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userAddressState, userVaultsBalanceState } from "../../atoms";
 import CuratedLoanPosition from "../../interfaces/curatedLoan";
 import { fetchLoans } from "../../utils/fetchLoans";
 import CardSpinner from "../misc/cardSpinner";
 
 const PositionCollection = () => {
-  // TODO: Replace with actual data
-  const data = [
-    { name: "MATIC", price: 1.3, amount: 69 },
-    { name: "SUSHI", price: 12.5, amount: 29 },
-  ];
   const userAddress = useRecoilValue(userAddressState);
   let address = useParams().address ?? userAddress;
+
+  const setVaultsBalance = useSetRecoilState(userVaultsBalanceState);
   const [loans, setLoans] = useState<CuratedLoanPosition[]>();
   const gradient = useColorModeValue(
     "linear(to-bl, gray.200 0%, #94A6FF 100%)",
@@ -39,7 +37,11 @@ const PositionCollection = () => {
   async function initLoans() {
     const result = await fetchLoans(address);
     setLoans(result);
-    console.log(result);
+    let vaultBals = 0;
+    result.forEach((item) => {
+      vaultBals += item.collateralAmount * item.collateralPrice;
+    });
+    setVaultsBalance(vaultBals);
   }
   useEffect(() => {
     initLoans();
@@ -69,6 +71,22 @@ const PositionCollection = () => {
           borderColor={useColorModeValue("#E4E4E4", "#525252")}
         >
           <Stack direction={{ base: "column" }} w="full">
+            {loans.length === 0 && (
+              <Center>
+                <Heading
+                  bgGradient={useColorModeValue(
+                    "linear(to-l, #1AAA0D, #0B97D8)",
+                    "linear(to-l, #63F156, #39AADF)"
+                  )}
+                  bgClip="text"
+                  fontWeight={400}
+                  fontSize="3xl"
+                  m={3}
+                >
+                  Vaults are empty
+                </Heading>
+              </Center>
+            )}
             {loans.map((asset, pid) => {
               return (
                 <React.Fragment key={pid}>
@@ -81,7 +99,7 @@ const PositionCollection = () => {
                     <VStack alignItems="start">
                       <Text opacity={0.6}>{asset.collateralId}</Text>
                       <Heading fontSize="md" fontWeight="300">
-                        {asset.collateralPrice}$
+                        {numbro(asset.collateralPrice).format("0,0.00")}$
                       </Heading>
                     </VStack>
                     <Spacer />

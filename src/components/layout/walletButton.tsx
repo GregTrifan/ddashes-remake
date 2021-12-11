@@ -40,7 +40,7 @@ const WalletButton = () => {
       title: "address copied successfully",
       status: "success",
       position: "top",
-      variant: "subtle",
+      duration: 900,
       isClosable: true,
     });
   };

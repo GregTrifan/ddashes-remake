@@ -19,8 +19,8 @@ import {
 import numbro from "numbro";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userAddressState } from "../../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userAddressState, userTokensBalanceState } from "../../atoms";
 import CuratedToken from "../../interfaces/curatedToken";
 import { getTokenBalances } from "../../utils/fetchBalance";
 import CardSpinner from "../misc/cardSpinner";
@@ -35,9 +35,15 @@ const AssetCollection = () => {
   >();
   const userAddress = useRecoilValue(userAddressState);
   let address = useParams().address ?? userAddress;
+  const setAssetsBalance = useSetRecoilState(userTokensBalanceState);
   async function initAssets() {
     const res = await getTokenBalances(address);
     setTokenBalances(res);
+    let tokenBalance = 0;
+    res!.forEach((element) => {
+      tokenBalance += element.balance * element.price;
+    });
+    setAssetsBalance(tokenBalance);
   }
   useEffect(() => {
     if (address) {
@@ -69,6 +75,22 @@ const AssetCollection = () => {
           borderColor={useColorModeValue("#E4E4E4", "#525252")}
         >
           <Stack direction={{ base: "column" }} w="full">
+            {tokenBalances.length === 0 && (
+              <Center>
+                <Heading
+                  bgGradient={useColorModeValue(
+                    "linear(to-l, #1AAA0D, #0B97D8)",
+                    "linear(to-l, #63F156, #39AADF)"
+                  )}
+                  bgClip="text"
+                  fontWeight={400}
+                  fontSize="3xl"
+                  m={3}
+                >
+                  There are no assets
+                </Heading>
+              </Center>
+            )}
             {tokenBalances.map((asset, pid) => {
               return (
                 <React.Fragment key={pid}>

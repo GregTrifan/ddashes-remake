@@ -1,7 +1,6 @@
 import { useRecoilValue } from "recoil";
 import { userAddressState } from "../atoms";
 import AssetCollection from "../components/dashboard/assetCollection";
-import LiquidityCollection from "../components/dashboard/liquidityCollection";
 import PositionCollection from "../components/dashboard/positionsCollection";
 import TotalBalance from "../components/dashboard/totalBalance";
 import NativeAsset from "../components/dashboard/nativeAsset";
@@ -16,7 +15,6 @@ export default function Home() {
         <>
           <AssetCollection />
           <PositionCollection />
-          <LiquidityCollection />
         </>
       )}
     </>

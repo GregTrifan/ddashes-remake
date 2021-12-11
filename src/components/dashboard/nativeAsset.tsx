@@ -11,9 +11,13 @@ import { motion } from "framer-motion";
 import numbro from "numbro";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import { ReactComponent as Karura } from "../../assets/karura.svg";
-import { userAddressState } from "../../atoms";
+import {
+  userAddressState,
+  userKarFreeState,
+  userKarLockedState,
+} from "../../atoms";
 import { fetchKARBalance, fetchKARPrice } from "../../utils/fetchBalance";
 const NativeAsset = () => {
   const gradient = useColorModeValue(
@@ -24,11 +28,17 @@ const NativeAsset = () => {
   const [karPrice, setKarPrice] = useState<number>(0);
   const userAddress = useRecoilValue(userAddressState);
   let address = useParams().address ?? userAddress;
+  const lockedKarBalance = useRecoilValue(userKarLockedState);
+  const setLockedKarBalance = useSetRecoilState(userKarLockedState);
+  const freeKarBalance = useRecoilValue(userKarFreeState);
+  const setFreeKarBalance = useSetRecoilState(userKarFreeState);
   async function initBal() {
     const kar = await fetchKARBalance(address);
     const price = await fetchKARPrice();
     setKarPrice(Number(price) / Math.pow(10, 12));
-    setKarBalance(kar / Math.pow(10, 12));
+    setKarBalance(kar.free + kar.locked);
+    setFreeKarBalance(kar.free);
+    setLockedKarBalance(kar.locked);
   }
   useEffect(() => {
     initBal();
@@ -62,29 +72,56 @@ const NativeAsset = () => {
         </Box>
         <VStack visibility={{ base: "hidden", md: "visible" }}>
           <Box>
-            <Heading ml="auto" textAlign="left">
-              KAR
-            </Heading>
+            <Heading textAlign={{ base: "right", md: "left" }}>KAR</Heading>
           </Box>
           <Spacer />
           <Box>
-            <Text color={useColorModeValue("gray.600", "gray.500")}>
+            <Text ml="4" color={useColorModeValue("gray.600", "gray.500")}>
               1 KAR = {numbro(karPrice).format("0,0.00")} $
             </Text>
           </Box>
         </VStack>
         <Spacer />
-
         <VStack>
           <Box>
-            <Heading fontSize={{ base: "lg", md: "3xl" }}>
+            <Heading textAlign="right" fontSize={{ base: "2xl", md: "3xl" }}>
               {numbro(karBalance).format("0,0.00")} KAR
             </Heading>
+
+            <Text
+              textAlign="right"
+              display={{ base: "block", md: "none" }}
+              fontSize={{ base: "lg", md: "md" }}
+              color={useColorModeValue("gray.600", "gray.500")}
+            >
+              {numbro(karBalance * karPrice).format("0,0.00")} $
+            </Text>
           </Box>
-          <Spacer />
           <Box>
-            <Text ml="auto" color={useColorModeValue("gray.600", "gray.500")}>
-              {numbro(karBalance * karPrice).format("0,0.00")}$
+            <Text
+              display={{ base: "none", md: "block" }}
+              fontSize="sm"
+              textAlign="right"
+              color={useColorModeValue("gray.600", "gray.500")}
+            >
+              {numbro(freeKarBalance).format("0,0.00")} KAR Avalaible
+            </Text>
+            <Text
+              display={{ base: "none", md: "block" }}
+              fontSize="sm"
+              textAlign="right"
+              color={useColorModeValue("gray.600", "gray.500")}
+            >
+              {numbro(lockedKarBalance).format("0,0.00")} KAR Locked
+            </Text>
+            <Spacer />
+            <Text
+              textAlign="right"
+              display={{ base: "none", md: "block" }}
+              fontSize={{ base: "lg", md: "md" }}
+              color={useColorModeValue("gray.600", "gray.500")}
+            >
+              {numbro(karBalance * karPrice).format("0,0.00")} $
             </Text>
           </Box>
         </VStack>
