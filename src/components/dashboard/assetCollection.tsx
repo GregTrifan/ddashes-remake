@@ -42,6 +42,7 @@ const AssetCollection = () => {
     setTokenBalances(res);
     let tokenBalance = 0;
     res!.forEach((element) => {
+      console.log(element.price);
       tokenBalance += element.balance * element.price;
     });
     setAssetsBalance(tokenBalance);
@@ -105,9 +106,7 @@ const AssetCollection = () => {
                     <VStack alignItems="start">
                       <Text opacity={0.6}>{asset.name}</Text>
                       <Heading fontSize="md" fontWeight="300">
-                        {numbro(
-                          asset.price / Math.pow(10, asset.decimal)
-                        ).format("0,0.00 $")}
+                        {numbro(asset.price).format("0,0.00 $")}
                       </Heading>
                     </VStack>
                     <Spacer />
