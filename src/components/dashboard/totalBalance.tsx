@@ -27,6 +27,13 @@ const TotalBalance = () => {
   const userKarLockedBalance = useRecoilValue(userKarLockedState);
   const userTokensBalance = useRecoilValue(userTokensBalanceState);
   function sumAll() {
+    const sum =
+      userTokensBalance +
+      userKarLockedBalance +
+      userKarFreeBalance +
+      userVaultsBalance;
+    if (isNaN(sum)) return 0;
+
     return (
       userTokensBalance +
       userKarLockedBalance +
@@ -60,9 +67,11 @@ const TotalBalance = () => {
 
         <Tooltip
           hasArrow
-          label={`${numbro(getRatio()).format("0,0.00")}% In wallet, ${numbro(
-            100 - getRatio()
-          ).format("0,0.00")}% Locked`}
+          label={`${
+            sumAll() ? numbro(getRatio()).format("0,0.00") : "0"
+          }% In wallet, ${
+            sumAll() ? numbro(100 - getRatio()).format("0,0.00") : "0"
+          }% Locked`}
           rounded="md"
         >
           <div>
