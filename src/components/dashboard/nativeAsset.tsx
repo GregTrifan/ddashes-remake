@@ -84,20 +84,18 @@ const NativeAsset = () => {
         <Spacer />
         <VStack>
           <Box>
-            <Heading textAlign="right" fontSize={{ base: "2xl", md: "3xl" }}>
+            <Heading textAlign="right" fontSize={{ base: "xl", md: "3xl" }}>
               {numbro(karBalance).format("0,0.00")} KAR
             </Heading>
 
             <Text
               textAlign="right"
               display={{ base: "block", md: "none" }}
-              fontSize={{ base: "lg", md: "md" }}
+              fontSize="md"
               color={useColorModeValue("gray.600", "gray.500")}
             >
               {numbro(karBalance * karPrice).format("0,0.00")} $
             </Text>
-          </Box>
-          <Box>
             <Text
               display={{ base: "none", md: "block" }}
               fontSize="sm"
