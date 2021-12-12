@@ -77,7 +77,7 @@ const TotalBalance = () => {
           <div>
             <Progress
               hasStripe
-              value={getRatio()}
+              value={sumAll() ? getRatio() : 0}
               rounded="sm"
               size="sm"
               my="2"

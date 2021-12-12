@@ -7,6 +7,7 @@ import PositionCollection from "../../components/dashboard/positionsCollection";
 import NativeAsset from "../../components/dashboard/nativeAsset";
 import TotalBalance from "../../components/dashboard/totalBalance";
 import NotFound from "../404";
+import LoadingDash from "../../components/misc/loadingDash";
 
 const AddressLookup = () => {
   let { address } = useParams();
@@ -17,12 +18,12 @@ const AddressLookup = () => {
     );
     if (isValid)
       return (
-        <>
+        <LoadingDash>
           <TotalBalance />
           <NativeAsset />
           <AssetCollection />
           <PositionCollection />
-        </>
+        </LoadingDash>
       );
     else return <NotFound />;
   } catch {
