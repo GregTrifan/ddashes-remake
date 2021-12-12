@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Image,
   Button,
   Center,
   chakra,
@@ -95,11 +96,12 @@ const AssetCollection = () => {
               return (
                 <React.Fragment key={pid}>
                   <Flex pr={10} pl={2}>
-                    <Avatar mx="auto" mr={3}>
-                      <chakra.p fontSize="12" mx="8">
-                        {asset.name}
-                      </chakra.p>
-                    </Avatar>
+                    <Avatar
+                      mx="auto"
+                      mr={3}
+                      name={asset.name}
+                      src={`/logos/${asset.name}.png`}
+                    />
                     <VStack alignItems="start">
                       <Text opacity={0.6}>{asset.name}</Text>
                       <Heading fontSize="md" fontWeight="300">

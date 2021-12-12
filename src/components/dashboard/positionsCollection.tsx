@@ -91,11 +91,12 @@ const PositionCollection = () => {
               return (
                 <React.Fragment key={pid}>
                   <Flex pr={10} pl={2}>
-                    <Avatar mx="auto" mr={3}>
-                      <chakra.p fontSize="12" mx="8">
-                        {asset.collateralId}
-                      </chakra.p>
-                    </Avatar>
+                    <Avatar
+                      mx="auto"
+                      mr={3}
+                      name={asset.collateralId}
+                      src={`/logos/${asset.collateralId}.png`}
+                    ></Avatar>
                     <VStack alignItems="start">
                       <Text opacity={0.6}>{asset.collateralId}</Text>
                       <Heading fontSize="md" fontWeight="300">

@@ -68,7 +68,7 @@ const TotalBalance = () => {
           hasArrow
           label={`${numbro(getRatio()).format("0,0.00")}% In wallet, ${numbro(
             100 - getRatio()
-          ).format("0,0.00")}% Supplied`}
+          ).format("0,0.00")}% Locked`}
           rounded="md"
         >
           <div>
