@@ -22,9 +22,9 @@ const WalletButton = () => {
   }, []);
   const toast = useToast();
   async function setupWallet() {
-    await web3Enable("DDash App");
-    const allAccounts = await web3Accounts();
     try {
+      await web3Enable("DDash App");
+      const allAccounts = await web3Accounts();
       const newAddress = encodeAddress(allAccounts[0].address, 8);
       if (newAddress !== address) {
         setAddress(newAddress);

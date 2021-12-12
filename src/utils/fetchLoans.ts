@@ -3,6 +3,10 @@ import CuratedLoanPosition from "../interfaces/curatedLoan";
 import LoanPositionNode from "../interfaces/loanPositionNode";
 import TokenNode from "../interfaces/tokenNode";
 export async function fetchLoans(address: string) {
+  /* I'll be using a different endpoint 
+  since the official endpoint avalible on the Subquery Explorer
+  isn't working yet
+  */
   const client = new ApolloClient({
     uri: "https://api.polkawallet.io/acala-subql",
     cache: new InMemoryCache(),

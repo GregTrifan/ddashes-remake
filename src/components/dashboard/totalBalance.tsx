@@ -8,11 +8,8 @@ import {
   Progress,
 } from "@chakra-ui/react";
 import numbro from "numbro";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import {
-  userAddressState,
   userKarFreeState,
   userKarLockedState,
   userTokensBalanceState,
@@ -24,8 +21,6 @@ const TotalBalance = () => {
     "linear(to-t, #9EE7AA, #AFC6EE)",
     "linear(to-t, #56AFA5, #0E73AD)"
   );
-  const userAddress = useRecoilValue(userAddressState);
-  let address = useParams().address ?? userAddress;
 
   const userVaultsBalance = useRecoilValue(userVaultsBalanceState);
   const userKarFreeBalance = useRecoilValue(userKarFreeState);
@@ -41,7 +36,6 @@ const TotalBalance = () => {
   }
   function getRatio() {
     const sum = sumAll();
-    console.log(((userTokensBalance + userKarFreeBalance) * 100) / sum);
     return ((userTokensBalance + userKarFreeBalance) * 100) / sum;
   }
   return (

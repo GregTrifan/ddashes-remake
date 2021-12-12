@@ -42,7 +42,6 @@ const AssetCollection = () => {
     setTokenBalances(res);
     let tokenBalance = 0;
     res!.forEach((element) => {
-      console.log(element.price);
       tokenBalance += element.balance * element.price;
     });
     setAssetsBalance(tokenBalance);
