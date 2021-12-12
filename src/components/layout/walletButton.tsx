@@ -2,6 +2,11 @@ import {
   Box,
   Button,
   HStack,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Spacer,
   Text,
   Tooltip,
   useColorModeValue,
@@ -10,6 +15,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import Identicon from "@polkadot/react-identicon";
+import { AiOutlineCopy } from "react-icons/ai";
+import { BiDoorOpen } from "react-icons/bi";
 import { encodeAddress } from "@polkadot/keyring";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userAddressState } from "../../atoms";
@@ -44,32 +51,50 @@ const WalletButton = () => {
       isClosable: true,
     });
   };
-
+  const disconnectWallet = () => {
+    setAddress("");
+    localStorage.removeItem("address");
+  };
   if (address)
     return (
-      <Tooltip
-        label="Click to copy address"
-        rounded="md"
-        p="1"
-        color={useColorModeValue("black", "gray.100")}
-        bgColor={useColorModeValue("gray.300", "gray.700")}
-      >
-        <Button
-          onClick={() => copyAddress()}
-          backgroundColor={useColorModeValue("gray.100", "gray.900")}
-          rounded="md"
-          py="2"
-        >
-          <HStack p="3">
-            <Identicon value={address} size={24} theme="polkadot" />
-            <Text>
-              {address.substring(0, 3) +
-                "..." +
-                address.substring(address.length - 3, address.length)}
-            </Text>
-          </HStack>
-        </Button>
-      </Tooltip>
+      <Popover>
+        <PopoverTrigger>
+          <Button
+            backgroundColor={useColorModeValue("gray.100", "gray.900")}
+            rounded="md"
+            py="2"
+          >
+            <HStack p="3">
+              <Identicon value={address} size={24} theme="polkadot" />
+              <Text>
+                {address.substring(0, 3) +
+                  "..." +
+                  address.substring(address.length - 3, address.length)}
+              </Text>
+            </HStack>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent maxW="176">
+          <Box>
+            <HStack>
+              <Button
+                onClick={() => disconnectWallet()}
+                colorScheme="red"
+                rightIcon={<BiDoorOpen />}
+              >
+                Disconnect
+              </Button>
+              <Spacer />
+              <IconButton
+                variant="outline"
+                aria-label="copy-address"
+                icon={<AiOutlineCopy />}
+                onClick={() => copyAddress()}
+              />
+            </HStack>
+          </Box>
+        </PopoverContent>
+      </Popover>
     );
   return (
     <Button px="6" onClick={() => setupWallet()}>

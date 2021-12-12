@@ -168,12 +168,13 @@ const NavHeader = () => {
             display={mobileNav.isOpen ? "none" : "flex"}
             alignItems="center"
           >
+            <WalletButton />
             <IconButton
               size="md"
               fontSize="lg"
               aria-label={`Switch to ${text} mode`}
-              variant="ghost"
-              color="current"
+              variant="outline"
+              colorScheme="gray"
               ml={{ base: "0", md: "3" }}
               onClick={toggleMode}
               icon={<SwitchIcon />}
@@ -205,7 +206,6 @@ const NavHeader = () => {
                 </IconButton>
               </InputRightAddon>
             </InputGroup>
-            <WalletButton />
           </HStack>
         </Flex>
       </chakra.header>
