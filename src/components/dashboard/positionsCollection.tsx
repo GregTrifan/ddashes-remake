@@ -90,7 +90,7 @@ const PositionCollection = () => {
             {loans.map((asset, pid) => {
               return (
                 <React.Fragment key={pid}>
-                  <Flex pr={10} pl={2}>
+                  <Flex pr={{ base: 2, md: 10 }} pl={2}>
                     <Avatar
                       mx="auto"
                       mr={3}
