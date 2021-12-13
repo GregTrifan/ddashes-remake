@@ -6,8 +6,12 @@ import {
   Tooltip,
   VStack,
   Progress,
+  HStack,
+  useToast,
 } from "@chakra-ui/react";
+import { BiCopy } from "react-icons/bi";
 import numbro from "numbro";
+import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import {
   userKarFreeState,
@@ -21,7 +25,7 @@ const TotalBalance = () => {
     "linear(to-t, #9EE7AA, #AFC6EE)",
     "linear(to-t, #56AFA5, #0E73AD)"
   );
-
+  const address = useParams().address;
   const userVaultsBalance = useRecoilValue(userVaultsBalanceState);
   const userKarFreeBalance = useRecoilValue(userKarFreeState);
   const userKarLockedBalance = useRecoilValue(userKarLockedState);
@@ -45,6 +49,19 @@ const TotalBalance = () => {
     const sum = sumAll();
     return ((userTokensBalance + userKarFreeBalance) * 100) / sum;
   }
+  const toast = useToast();
+  const copyAddress = () => {
+    if (address) {
+      navigator.clipboard.writeText(address);
+      toast({
+        title: "address copied successfully",
+        status: "success",
+        position: "top",
+        duration: 900,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <Box
       mx="auto"
@@ -55,9 +72,19 @@ const TotalBalance = () => {
     >
       <Box px={4} pt={6}>
         <Text fontWeight={600}>Portfolio Value</Text>
+        {address && (
+          <HStack>
+            <Text opacity={0.7} fontSize="sm">
+              {address.substring(0, 4) +
+                "..." +
+                address.substring(address.length - 4, address.length)}
+            </Text>
+            <BiCopy opacity={0.8} onClick={() => copyAddress()} />
+          </HStack>
+        )}
       </Box>
 
-      <Box p={4} minH="100px" bgGradient={gradient} rounded="md">
+      <Box px={4} pb={4} pt={2} minH="100px" bgGradient={gradient} rounded="md">
         <VStack alignItems="start">
           <Text opacity={0.6}>Net Worth</Text>
           <Heading fontSize="4xl" fontWeight="300">
