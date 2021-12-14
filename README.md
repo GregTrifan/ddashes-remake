@@ -11,4 +11,7 @@ DDash is a DeFi tool inspired by [Zapper](https://zapper.fi/), which can show an
 - Currently the official Karura endpoint isn't working correctly, so this project had to rely on the endpoint used by the [Karura DApp](https://apps.karura.network/) (https://api.polkawallet.io/acala-subql)
 - The current Vercel deployment will fallback to a 404 in the case you're refreshing after you've searched for an address (WIP - Issue related to React Router v6)
 
+### Contact
+* Discord - GЯEG#2127
+* Twitter - @grigore_trifan
 Built with ❤️ by TheSlayer-666 (Greg)
