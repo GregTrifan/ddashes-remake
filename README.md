@@ -6,6 +6,7 @@ This is the source code of the DDash Project, built during GR12 (Grants Round 12
 
 DDash is a DeFi tool inspired by [Zapper](https://zapper.fi/), which can show an overview of your Karura account balance/any address you'd search in the **Search Bar**
 
+### Video demo: https://youtu.be/gXzEs8141bE
 ## ⚠️ Notes
 
 - Currently the official Karura endpoint isn't working correctly, so this project had to rely on the endpoint used by the [Karura DApp](https://apps.karura.network/) (https://api.polkawallet.io/acala-subql)
