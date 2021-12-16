@@ -16,14 +16,17 @@ import React, { useEffect, useState } from "react";
 import { web3Accounts, web3Enable } from "@polkadot/extension-dapp";
 import Identicon from "@polkadot/react-identicon";
 import { AiOutlineCopy } from "react-icons/ai";
+import { FiExternalLink } from "react-icons/fi";
 import { BiDoorOpen } from "react-icons/bi";
 import { encodeAddress } from "@polkadot/keyring";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userAddressState } from "../../atoms";
+import { useNavigate } from "react-router-dom";
 
 const WalletButton = () => {
   const setAddress = useSetRecoilState(userAddressState);
   const address = useRecoilValue(userAddressState);
+  const navigate = useNavigate();
   useEffect(() => {
     setupWallet();
   }, []);
@@ -74,9 +77,9 @@ const WalletButton = () => {
             </HStack>
           </Button>
         </PopoverTrigger>
-        <PopoverContent maxW="176">
+        <PopoverContent maxW="180" p="1">
           <Box>
-            <HStack>
+            <HStack mb="2">
               <Button
                 onClick={() => disconnectWallet()}
                 colorScheme="red"
@@ -92,6 +95,16 @@ const WalletButton = () => {
                 onClick={() => copyAddress()}
               />
             </HStack>
+
+            <Button
+              maxW="full"
+              onClick={() => {
+                window.open(`https://karura.subscan.io/account/${address}`);
+              }}
+              rightIcon={<FiExternalLink />}
+            >
+              View on Subscan
+            </Button>
           </Box>
         </PopoverContent>
       </Popover>

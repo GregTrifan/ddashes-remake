@@ -8,11 +8,13 @@ import {
   Progress,
   HStack,
   useToast,
+  Spacer,
 } from "@chakra-ui/react";
 import { BiCopy } from "react-icons/bi";
 import numbro from "numbro";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { FiExternalLink } from "react-icons/fi";
 import {
   userKarFreeState,
   userKarLockedState,
@@ -70,21 +72,49 @@ const TotalBalance = () => {
       rounded="md"
       bg={useColorModeValue("#AFC6EE", "#0E73AD")}
     >
-      <Box px={4} pt={6}>
-        <Text fontWeight={600}>Portfolio Value</Text>
-        {address && (
-          <HStack>
-            <Text opacity={0.7} fontSize="sm">
-              {address.substring(0, 4) +
-                "..." +
-                address.substring(address.length - 4, address.length)}
-            </Text>
-            <BiCopy opacity={0.8} onClick={() => copyAddress()} />
-          </HStack>
-        )}
-      </Box>
+      <HStack>
+        <Box px={4} pt={6}>
+          <Text fontWeight={600}>Portfolio Value</Text>
+          {address && (
+            <HStack>
+              <Text opacity={0.7} fontSize="sm">
+                {address.substring(0, 4) +
+                  "..." +
+                  address.substring(address.length - 4, address.length)}
+              </Text>
+              <Tooltip
+                label="Copy Address"
+                rounded="md"
+                bgColor={useColorModeValue("gray.100", "gray.900")}
+                color={useColorModeValue("gray.900", "gray.50")}
+              >
+                <Box>
+                  <BiCopy opacity={0.8} onClick={() => copyAddress()} />
+                </Box>
+              </Tooltip>
+              <Tooltip
+                label="View on Subscan"
+                rounded="md"
+                bgColor={useColorModeValue("gray.100", "gray.900")}
+                color={useColorModeValue("gray.900", "gray.50")}
+              >
+                <Box>
+                  <FiExternalLink
+                    opacity={0.8}
+                    onClick={() => {
+                      window.open(
+                        `https://karura.subscan.io/account/${address}`
+                      );
+                    }}
+                  />
+                </Box>
+              </Tooltip>
+            </HStack>
+          )}
+        </Box>
+      </HStack>
 
-      <Box px={4} pb={4} pt={2} minH="100px" bgGradient={gradient} rounded="md">
+      <Box px={4} pb={4} minH="100px" bgGradient={gradient} rounded="md">
         <VStack alignItems="start">
           <Text opacity={0.6}>Net Worth</Text>
           <Heading fontSize="4xl" fontWeight="300">
