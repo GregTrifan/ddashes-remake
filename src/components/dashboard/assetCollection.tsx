@@ -28,7 +28,7 @@ import CardSpinner from "../misc/cardSpinner";
 
 const AssetCollection = () => {
   const gradient = useColorModeValue(
-    "linear(to-tr, gray.200 0%, #94A6FF 100%)",
+    "linear(to-tr, gray.200 0%, #A4C4F5 100%)",
     "linear(to-tr, #121a1f 0%, #1C319959 100%)"
   );
   const [tokenBalances, setTokenBalances] = useState<

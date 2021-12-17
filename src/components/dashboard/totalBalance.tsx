@@ -24,8 +24,8 @@ import {
 
 const TotalBalance = () => {
   const gradient = useColorModeValue(
-    "linear(to-t, #9EE7AA, #AFC6EE)",
-    "linear(to-t, #56AFA5, #0E73AD)"
+    "linear(to-br, #A4EBDF, #D3DCEC)",
+    "linear(to-br, #14776C, #04476D)"
   );
   const address = useParams().address;
   const userVaultsBalance = useRecoilValue(userVaultsBalanceState);
@@ -70,7 +70,7 @@ const TotalBalance = () => {
       maxW={{ base: "90vw", sm: "80vw", md: "70vw", lg: "60vw", xl: "800px" }}
       spacing={0}
       rounded="md"
-      bg={useColorModeValue("#AFC6EE", "#0E73AD")}
+      bgGradient={gradient}
     >
       <HStack>
         <Box px={4} pt={6}>
@@ -114,7 +114,7 @@ const TotalBalance = () => {
         </Box>
       </HStack>
 
-      <Box px={4} pb={4} minH="100px" bgGradient={gradient} rounded="md">
+      <Box px={4} pb={4} minH="100px" rounded="md">
         <VStack alignItems="start">
           <Text opacity={0.6}>Net Worth</Text>
           <Heading fontSize="4xl" fontWeight="300">

@@ -31,7 +31,7 @@ const PositionCollection = () => {
   const setVaultsBalance = useSetRecoilState(userVaultsBalanceState);
   const [loans, setLoans] = useState<CuratedLoanPosition[]>();
   const gradient = useColorModeValue(
-    "linear(to-bl, gray.200 0%, #94A6FF 100%)",
+    "linear(to-bl, gray.100 0%, #A4C4F5 100%)",
     "linear(to-bl, #121a1f 0%, #1C319959 100%)"
   );
   async function initLoans() {
