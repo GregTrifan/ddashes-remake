@@ -19,12 +19,9 @@ export async function fetchKARBalance(address: string): Promise<KarBalance> {
   return balances;
 }
 export async function fetchKARPrice() {
-  /* I'll be using a different endpoint 
-  since the official endpoint avalible on the Subquery Explorer
-  isn't working yet
-  */
+  
   const client = new ApolloClient({
-    uri: "https://api.polkawallet.io/acala-subql",
+    uri: "https://api.subquery.network/sq/AcalaNetwork/karura",
     cache: new InMemoryCache(),
   });
   const TOKEN_QUERY = gql`
@@ -42,12 +39,9 @@ export async function fetchKARPrice() {
 export async function getTokenBalances(
   address: string
 ): Promise<CuratedToken[] | undefined> {
-  /* I'll be using a different endpoint 
-  since the official endpoint avalible on the Subquery Explorer
-  isn't working yet
-  */
+  
   const client = new ApolloClient({
-    uri: "https://api.polkawallet.io/acala-subql",
+    uri: "https://api.subquery.network/sq/AcalaNetwork/karura",
     cache: new InMemoryCache(),
   });
   const wsProvider = new WsProvider("wss://karura-rpc-3.aca-api.network/ws");

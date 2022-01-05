@@ -10,6 +10,7 @@ import {
   useToast,
   Spacer,
 } from "@chakra-ui/react";
+import {useEffect, useState} from "react";
 import { BiCopy } from "react-icons/bi";
 import numbro from "numbro";
 import { useParams } from "react-router-dom";
@@ -21,6 +22,7 @@ import {
   userTokensBalanceState,
   userVaultsBalanceState,
 } from "../../atoms";
+import { fetchKARPrice } from "../../utils/fetchBalance";
 
 const TotalBalance = () => {
   const gradient = useColorModeValue(
@@ -28,25 +30,32 @@ const TotalBalance = () => {
     "linear(to-br, #14776C, #04476D)"
   );
   const address = useParams().address;
+  const [karPrice, setKarPrice] = useState<number>(0);
   const userVaultsBalance = useRecoilValue(userVaultsBalanceState);
   const userKarFreeBalance = useRecoilValue(userKarFreeState);
   const userKarLockedBalance = useRecoilValue(userKarLockedState);
   const userTokensBalance = useRecoilValue(userTokensBalanceState);
   function sumAll() {
+    if (!karPrice) return 0;
     const sum =
       userTokensBalance +
-      userKarLockedBalance +
-      userKarFreeBalance +
+      userKarLockedBalance*karPrice +
+      userKarFreeBalance*karPrice +
       userVaultsBalance;
     if (isNaN(sum)) return 0;
 
     return (
-      userTokensBalance +
-      userKarLockedBalance +
-      userKarFreeBalance +
-      userVaultsBalance
+      sum
     );
   }
+  async function initKar() {
+    const price = await fetchKARPrice();
+    setKarPrice(Number(price) / Math.pow(10, 12));
+  }
+  useEffect(() => {
+    
+    initKar();
+  }, [])
   function getRatio() {
     const sum = sumAll();
     return ((userTokensBalance + userKarFreeBalance) * 100) / sum;
