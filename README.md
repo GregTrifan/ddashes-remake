@@ -15,4 +15,4 @@ DDash is a DeFi tool inspired by [Zapper](https://zapper.fi/), which can show an
 * Discord - GЯEG#2127
 * Twitter - @grigore_trifan
 
-Built with ❤️ by TheSlayer-666 (Greg)
+Built with ❤️ by GregTrifan (Greg)
